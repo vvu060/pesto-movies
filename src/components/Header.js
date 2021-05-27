@@ -1,17 +1,16 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { UserCircleIcon } from "@heroicons/react/solid";
+import { auth } from "../firebase";
 import { SearchIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import SearchResult from "./SearchResult";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  login,
   logout,
   selectUserName,
   selectUserPhoto,
 } from "../features/user/userSlice";
-import { auth } from "../firebase";
 import { useHistory } from "react-router";
-import { UserCircleIcon } from "@heroicons/react/solid";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -36,13 +35,13 @@ const Header = () => {
   useEffect(() => {
     const searchMovie = async () => {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=c63ca5b4e5b9c3e16196fe8cf70e8262&language=en-US&query=${debouncedTerm}&page=1`
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${debouncedTerm}&page=1`
       );
 
       setSearchResults(data.results);
     };
 
-    if (term) {
+    if (debouncedTerm) {
       searchMovie();
     }
   }, [debouncedTerm]);
@@ -62,10 +61,10 @@ const Header = () => {
       >
         <MenuIcon className="h-8 text-gray-200 mr-2 lg:hidden" />
         <img
-          className="h-5 rounded-full sm:h-8"
+          loading="lazy"
+          className="h-5 rounded-full object-contain sm:h-8"
           src="https://pesto.tech/pesto-logo-black.png"
           alt="vmovies"
-          objectFit="contain"
         />
       </div>
 
@@ -113,7 +112,6 @@ const Header = () => {
                   <h3>No Results Found</h3>
                 </div>
               )}
-
               {searchResults.length && (
                 <div className="text-center text-md rounded-sm font-semibold text-gray-200 py-1 bg-gray-700">
                   <button className="outline-none border-none">
@@ -131,6 +129,7 @@ const Header = () => {
         <div onClick={signOut} className="ml-5">
           {userName ? (
             <img
+              loading="lazy"
               className="hidden lg:flex h-8 w-8 rounded-full cursor-pointer"
               src={userPhoto}
               alt={userName}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Row from "../Row";
 import Banner from "./Banner";
 import requests from "../../requests";

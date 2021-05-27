@@ -18,8 +18,6 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
     fetchData();
   }, [fetchUrl]);
 
-  console.log(movies, title);
-
   return (
     <div className=" text-gray-200 lg:p-2">
       <h2 className="text-xl font-semibold ml-3 md:text-2xl lg:text-2xl">
@@ -41,6 +39,7 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
                 )}
 
                 <img
+                  loading="lazy"
                   onClick={() => history.push(`/details/${movie.id}`)}
                   className={` max-h-28 object-contain mr-2 w-full rounded-md transition transform duration-300 hover:scale-110  ${
                     isLargeRow && "max-h-60 lg:max-h-80"

@@ -43,6 +43,7 @@ const LoginScreen = () => {
       <div className="relative h-80 w-60 bg-gray-300 bg-opacity-70 shadow-sm">
         <div className="flex justify-center">
           <img
+            loading="lazy"
             className="h-24 w-24 object-contain"
             src="https://pesto.tech/pesto-logo-black.png"
             alt="Pesto Logo"
@@ -60,6 +61,7 @@ const LoginScreen = () => {
               className="flex items-center text-lg font-bold px-5 py-3 m-2 bg-gray-500 shadow-md rounded-lg w-40 text-center"
             >
               <img
+                loading="lazy"
                 className="w-8 h-8 object-contain mr-2"
                 src="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Google-256.png"
                 alt=""
@@ -74,6 +76,7 @@ const LoginScreen = () => {
               className="flex items-center text-lg font-bold px-5 py-3 m-2 bg-gray-500 shadow-md rounded-lg w-40 text-center"
             >
               <img
+                loading="lazy"
                 className="w-8 h-8 object-contain mr-2"
                 src="https://cdn2.iconfinder.com/data/icons/social-media-2189/48/1-Facebook-256.png"
                 alt=""

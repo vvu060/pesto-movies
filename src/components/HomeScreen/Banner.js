@@ -10,7 +10,7 @@ const Banner = () => {
 
   const getTrendingMovies = async () => {
     const { data } = await axios.get(`
-    https://api.themoviedb.org/3/trending/movie/week?api_key=c63ca5b4e5b9c3e16196fe8cf70e8262`);
+    https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_API_KEY}`);
 
     setTrendingMovies(data.results);
   };
@@ -19,7 +19,6 @@ const Banner = () => {
     getTrendingMovies();
   }, []);
 
-  console.log(trendingMovies);
   return (
     <div className="relative opacity-80 mb-4">
       <div className="absolute w-full h-32 bg-gradient-to-t from-gray-800 to-transparent bottom-0 z-20" />
@@ -35,6 +34,7 @@ const Banner = () => {
           trendingMovies.map((trendingMovie) => (
             <div key={trendingMovie.id} className="relative">
               <img
+                loading="lazy"
                 className="h-60 lg:h-screen w-full object-cover object-center"
                 src={`https://image.tmdb.org/t/p/original/${trendingMovie.backdrop_path}`}
                 alt={trendingMovie.title}

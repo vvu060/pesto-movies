@@ -6,105 +6,28 @@ import requests from "../../requests";
 
 const base_url = "https://image.tmdb.org/t/p/original";
 
-// const details =
-//   {
-//     adult: false,
-//     backdrop_path: "/c0izdYdnTe4uMRifHgvTA85wPz0.jpg",
-//     belongs_to_collection: {
-//       id: 809185,
-//       name: "Army of the Dead Collection",
-//       poster_path: null,
-//       backdrop_path: null,
-//     },
-//     budget: 90000000,
-//     genres: [
-//       {
-//         id: 28,
-//         name: "Action",
-//       },
-//       {
-//         id: 27,
-//         name: "Horror",
-//       },
-//       {
-//         id: 53,
-//         name: "Thriller",
-//       },
-//     ],
-//     homepage: "https://www.netflix.com/title/81046394",
-//     id: 503736,
-//     imdb_id: "tt0993840",
-//     original_language: "en",
-//     original_title: "Army of the Dead",
-//     overview:
-//       "Following a zombie outbreak in Las Vegas, a group of mercenaries take the ultimate gamble: venturing into the quarantine zone to pull off the greatest heist ever attempted.",
-//     popularity: 1205.478,
-//     poster_path: "/z8CExJekGrEThbpMXAmCFvvgoJR.jpg",
-//     production_companies: [
-//       {
-//         id: 114152,
-//         logo_path: null,
-//         name: "The Stone Quarry",
-//         origin_country: "US",
-//       },
-//     ],
-//     production_countries: [
-//       {
-//         iso_3166_1: "US",
-//         name: "United States of America",
-//       },
-//     ],
-//     release_date: "2021-05-14",
-//     revenue: 780000,
-//     runtime: 148,
-//     spoken_languages: [
-//       {
-//         english_name: "English",
-//         iso_639_1: "en",
-//         name: "English",
-//       },
-//       {
-//         english_name: "German",
-//         iso_639_1: "de",
-//         name: "Deutsch",
-//       },
-//       {
-//         english_name: "Spanish",
-//         iso_639_1: "es",
-//         name: "Español",
-//       },
-//     ],
-//     status: "Released",
-//     tagline: "Always bet on dead.",
-//     title: "Army of the Dead",
-//     video: false,
-//     vote_average: 6.7,
-//     vote_count: 902,
-//   },
-
 const DetailsScreen = (props) => {
   const movieId = props.match.params.id;
   const [details, setDetails] = useState([]);
 
-  const getMovieDetails = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=c63ca5b4e5b9c3e16196fe8cf70e8262&language=en-US`
-    );
-
-    setDetails(data);
-  };
-
   useEffect(() => {
-    getMovieDetails();
-  }, [details, movieId]);
+    const getMovieDetails = async () => {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
 
-  console.log(details);
+      setDetails(data);
+    };
+
+    getMovieDetails();
+  }, [movieId]);
 
   return (
     <div className=" bg-gray-800 overflow-x-hidden">
       <div className="relative mb-10 lg:p-4 lg:rounded-md shadow-sm">
         <div className="hidden lg:flex absolute lg:top-4 lg:left-12 lg:h-screen lg:w-full lg:z-1 lg:bg-gradient-to-r from-gray-900 to-transparent" />
         <img
+          loading="lazy"
           className="max-h-52 w-full bg-no-repeat md:max-h-96 lg:max-h-screen xl:max-h-3/4 xl:object-stretch xl:px-8"
           src={`${base_url}/${details.backdrop_path}`}
           alt={details.title}
@@ -150,6 +73,7 @@ const DetailsScreen = (props) => {
           Trailers and Extra
         </h2>
         <img
+          loading="lazy"
           className="max-h-32  bg-no-repeat rounded-md md:max-h-40 lg:max-h-52 lg:rounded-md cursor-pointer"
           src={`${base_url}/${details.backdrop_path}`}
           alt={details.title}

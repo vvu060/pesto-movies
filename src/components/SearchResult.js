@@ -5,10 +5,11 @@ const image_url = "https://image.tmdb.org/t/p/original";
 function SearchResult({ result }) {
   return (
     <div className="p-1 lg:py-2">
-      <a href="">
+      <a href={result.id}>
         <div class="flex items-start rounded-md  transition duration-300 hover:scale-105 hover:bg-gray-700 transform">
           <div className="">
             <img
+              loading="lazy"
               className="h-16 w-28 lg:h-20 lg:w-36 object-stretch rounded-sm"
               src={`${image_url}${result.backdrop_path || result.poster_path}`}
               alt={result.title}
@@ -33,7 +34,3 @@ function SearchResult({ result }) {
 }
 
 export default SearchResult;
-
-{
-  /* <div class="flex items-start min-w-36 h-20 max-h-20 overflow-hidden rounded-sm"> */
-}
