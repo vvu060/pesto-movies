@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div>
-      {/* <Router>
+      <Router>
         {userEmail ? (
           <LoginScreen />
         ) : (
@@ -42,9 +42,9 @@ function App() {
             </Switch>
           </Fragment>
         )}
-      </Router> */}
+      </Router>
 
-      <Router>
+      {/* <Router>
         <Fragment>
           <Header />
           <Switch>
@@ -52,7 +52,7 @@ function App() {
             <Route path="/" exact component={HomeScreen} />
           </Switch>
         </Fragment>
-      </Router>
+      </Router> */}
     </div>
   );
 }
