@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { HashLink as Link } from "react-router-hash-link";
 import { useDispatch, useSelector } from "react-redux";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { auth } from "../firebase";
 import { SearchIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import SearchResult from "./SearchResult";
-import {
-  logout,
-  selectUserName,
-  selectUserPhoto,
-} from "../features/user/userSlice";
+import { selectUserName, selectUserPhoto } from "../features/user/userSlice";
 import { useHistory } from "react-router";
 
-const Header = () => {
-  const dispatch = useDispatch();
+const Header = (props) => {
   const history = useHistory();
   const userPhoto = useSelector(selectUserPhoto);
   const userName = useSelector(selectUserName);
@@ -35,7 +31,7 @@ const Header = () => {
   useEffect(() => {
     const searchMovie = async () => {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${debouncedTerm}&page=1`
+        `https://api.themoviedb.org/3/search/movie?&api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${debouncedTerm}&page=1`
       );
 
       setSearchResults(data.results);
@@ -46,20 +42,23 @@ const Header = () => {
     }
   }, [debouncedTerm]);
 
-  const signOut = () => {
-    auth.signOut().then(() => {
-      dispatch(logout());
+  const smoothScroll = (el) => {
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
     });
   };
 
+  console.log(window.location.pathname);
+
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between bg-gray-700 p-3">
+    <header className="sticky top-0 z-20 flex items-center justify-between bg-gray-700 p-3">
       {/* Left */}
       <div
         onClick={() => history.push("/")}
         className="flex items-center cursor-pointer"
       >
-        <MenuIcon className="h-8 text-gray-200 mr-2 lg:hidden" />
+        {/* <MenuIcon className="h-8 text-gray-200 mr-2 md:hidden" /> */}
         <img
           loading="lazy"
           className="h-5 rounded-full object-contain sm:h-8"
@@ -69,27 +68,54 @@ const Header = () => {
       </div>
 
       {/* Middle */}
+
       <div className="hidden lg:inline-flex text-gray-200 ml-10 flex-grow">
         <ul className="flex space-x-4">
           <li className="categories">
-            <a href="#">Action</a>
+            <Link to="#pesto" scroll={smoothScroll}>
+              Originals
+            </Link>
           </li>
           <li className="categories">
-            <a href="#">Comedy</a>
+            <Link to="#fantasy" scroll={smoothScroll}>
+              Fantasy
+            </Link>
           </li>
           <li className="categories">
-            <a href="#">Romance</a>
+            <Link to="#action" scroll={smoothScroll}>
+              Action
+            </Link>
           </li>
           <li className="categories">
-            <a href="#">Horror</a>
+            <Link to="#comedy" scroll={smoothScroll}>
+              Comedy
+            </Link>
           </li>
           <li className="categories">
-            <a href="#">TV</a>
+            <Link to="#horror" scroll={smoothScroll}>
+              Horror
+            </Link>
+          </li>
+          <li className="categories">
+            <Link to="#thriller" scroll={smoothScroll}>
+              Thriller
+            </Link>
+          </li>
+          <li className="categories">
+            <Link to="#romance" scroll={smoothScroll}>
+              Romance
+            </Link>
+          </li>
+          <li className="categories">
+            <Link to="#documentaries" scroll={smoothScroll}>
+              Documentaries
+            </Link>
           </li>
         </ul>
       </div>
 
       {/* Right */}
+
       <div className="flex justify-end ml-5">
         <div className="relative flex items-center space-x-2 border-b-2 border-gray-400">
           <SearchIcon className="h-5 w-5 text-gray-200 cursor-pointer" />
@@ -102,7 +128,7 @@ const Header = () => {
           />
 
           {term && (
-            <div className="absolute top-12 -left-10 h-auto w-60 lg:top-14 lg:-left-2 lg:w-full  overflow-hidden bg-gray-800 p-1 rounded-b-md border-gray-700">
+            <div className="absolute  top-12 -left-10 h-auto w-60 lg:top-14 lg:-left-2 lg:w-full  overflow-hidden bg-gray-800 p-1 rounded-b-md border-gray-700">
               {searchResults.length ? (
                 searchResults
                   .slice(0, 3)
@@ -126,11 +152,12 @@ const Header = () => {
             className="h-4 text-gray-200 cursor-pointer"
           />
         </div>
-        <div onClick={signOut} className="ml-5">
+
+        <div onClick={() => history.push("/plans")} className="ml-5">
           {userName ? (
             <img
               loading="lazy"
-              className="hidden lg:flex h-8 w-8 rounded-full cursor-pointer"
+              className="h-10 w-10 lg:flex lg:h-8 lg:w-8 rounded-full cursor-pointer"
               src={userPhoto}
               alt={userName}
             />

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { selectUserSubscription } from "../features/user/userSlice";
 import axios from "./axios";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
-const Row = ({ title, fetchUrl, isLargeRow = false }) => {
+const Row = ({ id, title, fetchUrl, isLargeRow = false }) => {
   const history = useHistory();
+  const userSubscription = useSelector(selectUserSubscription);
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -19,7 +22,7 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
   }, [fetchUrl]);
 
   return (
-    <div className=" text-gray-200 lg:p-2">
+    <div id={id} className=" text-gray-200 lg:p-2">
       <h2 className="text-xl font-semibold ml-3 md:text-2xl lg:text-2xl">
         {title}
       </h2>
@@ -31,8 +34,8 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
               <Fragment key={movie.id}>
                 {!isLargeRow && (
                   <div className="relative">
-                    <div className="absolute items-center whitespace-nowrap  bottom-2 left-2 z-10  text-left text-xs text-gray-200">
-                      <p className="font-bold ">{movie.title}</p>
+                    <div className="absolute z-10 items-center whitespace-nowrap  bottom-2 left-2  text-left text-xs text-gray-200">
+                      <p className="font-bold">{movie.title}</p>
                       <p>{movie.adult ? "18+" : "10+"}</p>
                     </div>
                   </div>
@@ -41,7 +44,7 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
                 <img
                   loading="lazy"
                   onClick={() => history.push(`/details/${movie.id}`)}
-                  className={` max-h-28 object-contain mr-2 w-full rounded-md transition transform duration-300 hover:scale-110  ${
+                  className={`max-h-28 object-contain mr-2 w-full rounded-md transition transform duration-300 hover:scale-110  ${
                     isLargeRow && "max-h-60 lg:max-h-80"
                   }`}
                   key={movie.id}

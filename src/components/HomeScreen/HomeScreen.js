@@ -8,18 +8,47 @@ function HomeScreen() {
     <div className="bg-gray-800">
       <Banner />
       <Row
+        id="pesto"
         title="PESTO ORIGINALS"
         fetchUrl={requests.fetchTrending}
         isLargeRow={true}
       />
-      <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
-      <Row title="Fantasy Movies" fetchUrl={requests.fetchFantasyMovies} />
-      <Row title="Action Movies" fetchUrl={requests.fetchActionMovies} />
-      <Row title="Comedy Movies" fetchUrl={requests.fetchComedyMovies} />
-      <Row title="Horror Movies" fetchUrl={requests.fetchHorrorMovies} />
-      <Row title="Thriller Movies" fetchUrl={requests.fetchThrillerMovies} />
-      <Row title="Romance Movies" fetchUrl={requests.fetchRomanceMovies} />
-      <Row title="Documentaries" fetchUrl={requests.fetchDocumetaries} />
+      <Row id="top" title="Top Rated" fetchUrl={requests.fetchTopRated} />
+      <Row
+        id="fantasy"
+        title="Fantasy Movies"
+        fetchUrl={requests.fetchFantasyMovies}
+      />
+      <Row
+        id="action"
+        title="Action Movies"
+        fetchUrl={requests.fetchActionMovies}
+      />
+      <Row
+        id="comedy"
+        title="Comedy Movies"
+        fetchUrl={requests.fetchComedyMovies}
+      />
+      <Row
+        id="horror"
+        title="Horror Movies"
+        fetchUrl={requests.fetchHorrorMovies}
+      />
+      <Row
+        id="thriller"
+        title="Thriller Movies"
+        fetchUrl={requests.fetchThrillerMovies}
+      />
+      <Row
+        id="romance"
+        title="Romance Movies"
+        fetchUrl={requests.fetchRomanceMovies}
+      />
+      <Row
+        id="documentaries"
+        title="Documentaries"
+        fetchUrl={requests.fetchDocumetaries}
+      />
     </div>
   );
 }

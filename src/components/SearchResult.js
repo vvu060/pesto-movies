@@ -4,7 +4,7 @@ const image_url = "https://image.tmdb.org/t/p/original";
 
 function SearchResult({ result }) {
   return (
-    <div className="p-1 lg:py-2">
+    <div className="p-1 lg:py-2 z-80">
       <a href={result.id}>
         <div class="flex items-start rounded-md  transition duration-300 hover:scale-105 hover:bg-gray-700 transform">
           <div className="">

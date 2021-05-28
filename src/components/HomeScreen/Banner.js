@@ -10,7 +10,7 @@ const Banner = () => {
 
   const getTrendingMovies = async () => {
     const { data } = await axios.get(`
-    https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_API_KEY}`);
+    https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
 
     setTrendingMovies(data.results);
   };
@@ -20,18 +20,18 @@ const Banner = () => {
   }, []);
 
   return (
-    <div className="relative opacity-80 mb-4">
-      <div className="absolute w-full h-32 bg-gradient-to-t from-gray-800 to-transparent bottom-0 z-20" />
+    <div id="banner" className="relative opacity-80 mb-4">
+      <div className="absolute w-full h-32 bg-gradient-to-t from-gray-800 to-transparent bottom-0" />
       <Carousel
         autoPlay={true}
         infiniteLoop
         showStatus={false}
-        showIndicators={false}
+        showIndicators={true}
         showThumbs={false}
         interval={4000}
       >
         {trendingMovies &&
-          trendingMovies.map((trendingMovie) => (
+          trendingMovies.slice(0, 10).map((trendingMovie) => (
             <div key={trendingMovie.id} className="relative">
               <img
                 loading="lazy"
@@ -60,7 +60,7 @@ const Banner = () => {
                   </p>
                   <div className="flex items-center justify-self-start">
                     &nbsp;
-                    <h3 className="lg:flex p-1 rounded-sm bg-yellow-400 text-xs font-bold">
+                    <h3 className="lg:flex p-1 rounded-sm bg-gradient-to-r from-yellow-300 to-yellow-500 text-xs font-bold">
                       IMDb
                     </h3>
                     <p className="text-xs lg:flex">
