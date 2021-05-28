@@ -31,7 +31,7 @@ function App() {
   return (
     <div>
       <Router>
-        {userEmail ? (
+        {!userEmail ? (
           <LoginScreen />
         ) : (
           <Fragment>
