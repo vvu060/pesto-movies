@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { auth, providerGoogle } from "../../firebase";
+import { auth, providerFacebook, providerGoogle } from "../../firebase";
 import { login } from "../../features/user/userSlice";
 
 const LoginScreen = () => {
@@ -12,6 +12,24 @@ const LoginScreen = () => {
       .then((result) => {
         let user = result.user;
 
+        dispatch(
+          login({
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+            userId: user.uid,
+          })
+        );
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const signInFacebook = () => {
+    auth
+      .signInWithPopup(providerFacebook)
+      .then((result) => {
+        let user = result.user;
+        console.log(user);
         dispatch(
           login({
             name: user.displayName,
@@ -36,11 +54,11 @@ const LoginScreen = () => {
           />
         </div>
 
-        <h1 className="text-lg font-bold text-gray-900 text-center mt-10">
+        <h1 className="text-lg font-bold text-gray-900 text-center mt-6">
           Sign In with
         </h1>
 
-        <div className="flex justify-center mt-12">
+        <div className="flex flex-col items-center">
           <button
             onClick={signInGoogle}
             className="flex items-center text-lg font-bold px-5 py-3 m-2 bg-gray-500 shadow-md rounded-lg w-40 text-center"
@@ -52,6 +70,19 @@ const LoginScreen = () => {
               alt=""
             />
             Google
+          </button>
+
+          <button
+            onClick={signInFacebook}
+            className="flex items-center text-lg font-bold px-5 py-3 m-2 bg-gray-500 shadow-md rounded-lg w-40 text-center"
+          >
+            <img
+              loading="lazy"
+              className="w-8 h-8 object-contain mr-2"
+              src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png"
+              alt=""
+            />
+            Facebook
           </button>
         </div>
       </div>

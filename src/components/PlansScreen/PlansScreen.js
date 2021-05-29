@@ -35,7 +35,9 @@ function PlansScreen() {
             <div>
               <h3 className="text-sm">
                 Plans (Current Plan:{" "}
-                {userSubscription ? userSubscription : "None"})
+                <span className="text-red-500">
+                  {userSubscription ? userSubscription : "None"})
+                </span>
               </h3>
 
               <Plans />
