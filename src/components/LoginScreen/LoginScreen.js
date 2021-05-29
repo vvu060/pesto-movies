@@ -1,19 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 import { auth, providerGoogle } from "../../firebase";
 import { login } from "../../features/user/userSlice";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const signInGoogle = () => {
     auth
       .signInWithPopup(providerGoogle)
       .then((result) => {
         let user = result.user;
-        console.log(user);
+
         dispatch(
           login({
             name: user.displayName,

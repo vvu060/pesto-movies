@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { selectUserId, subscribe } from "../features/user/userSlice";
 import db from "../firebase";
+import { CircleLoader } from "react-spinners";
 
 const Plans = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const [products, setProducts] = useState([]);
   const [subscription, setSubscription] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     db.collection("customers")
@@ -23,6 +25,8 @@ const Plans = () => {
             current_period_start:
               subscription.data().current_period_start.seconds,
           });
+
+          dispatch(subscribe({ subscription: subscription.data().role }));
         });
       });
   }, [userId]);
@@ -36,7 +40,7 @@ const Plans = () => {
         querySnapshot.forEach(async (productDoc) => {
           products[productDoc.id] = productDoc.data();
           const priceSnap = await productDoc.ref
-            .collection("prices")
+            ?.collection("prices")
             .get("price");
           priceSnap.docs.forEach((price) => {
             products[productDoc.id].prices = {
@@ -50,6 +54,7 @@ const Plans = () => {
   }, []);
 
   const loadCheckout = async (priceId) => {
+    setLoading(true);
     const docRef = await db
       .collection("customers")
       .doc(userId)
@@ -78,6 +83,7 @@ const Plans = () => {
         stripe.redirectToCheckout({ sessionId });
       }
     });
+    setLoading(false);
   };
 
   return (
@@ -106,17 +112,21 @@ const Plans = () => {
               <h6 className="text-xs">{productData.description}</h6>
             </div>
 
-            <button
-              onClick={() =>
-                !isCurrentSubscription &&
-                loadCheckout(productData.prices?.priceId)
-              }
-              className={`p-2 ml-7 bg-gray-500 rounded-sm text-sm font-semibold border-none ${
-                isCurrentSubscription && "cursor-not-allowed bg-red-500"
-              }`}
-            >
-              {isCurrentSubscription ? "Subscribed" : "Subscribe"}
-            </button>
+            {!loading ? (
+              <button
+                onClick={() =>
+                  !isCurrentSubscription &&
+                  loadCheckout(productData.prices?.priceId)
+                }
+                className={`p-2 ml-7 bg-gray-500 rounded-sm text-sm font-semibold border-none ${
+                  isCurrentSubscription && "cursor-not-allowed bg-red-500"
+                }`}
+              >
+                {isCurrentSubscription ? "Subscribed" : "Subscribe"}
+              </button>
+            ) : (
+              <CircleLoader size={20} color="aqua" />
+            )}
           </div>
         );
       })}

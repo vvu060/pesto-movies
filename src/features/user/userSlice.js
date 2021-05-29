@@ -5,7 +5,7 @@ const initialState = {
   email: "",
   photo: "",
   userId: "",
-  subscription: false,
+  subscription: "",
 };
 
 export const userSlice = createSlice({

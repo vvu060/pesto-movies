@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { HashLink as Link } from "react-router-hash-link";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UserCircleIcon } from "@heroicons/react/solid";
-import { auth } from "../firebase";
-import { SearchIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { SearchIcon, XIcon } from "@heroicons/react/outline";
 import SearchResult from "./SearchResult";
 import { selectUserName, selectUserPhoto } from "../features/user/userSlice";
 import { useHistory } from "react-router";
+import { BeatLoader } from "react-spinners";
 
-const Header = (props) => {
+const Header = () => {
   const history = useHistory();
   const userPhoto = useSelector(selectUserPhoto);
   const userName = useSelector(selectUserName);
@@ -17,6 +17,8 @@ const Header = (props) => {
   const [term, setTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [searchResults, setSearchResults] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -30,11 +32,13 @@ const Header = (props) => {
 
   useEffect(() => {
     const searchMovie = async () => {
+      setLoading(true);
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/search/movie?&api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${debouncedTerm}&page=1`
       );
 
       setSearchResults(data.results);
+      setLoading(false);
     };
 
     if (debouncedTerm) {
@@ -49,8 +53,6 @@ const Header = (props) => {
     });
   };
 
-  console.log(window.location.pathname);
-
   return (
     <header className="sticky top-0 z-20 flex items-center justify-between bg-gray-700 p-3">
       {/* Left */}
@@ -58,7 +60,6 @@ const Header = (props) => {
         onClick={() => history.push("/")}
         className="flex items-center cursor-pointer"
       >
-        {/* <MenuIcon className="h-8 text-gray-200 mr-2 md:hidden" /> */}
         <img
           loading="lazy"
           className="h-5 rounded-full object-contain sm:h-8"
@@ -118,9 +119,9 @@ const Header = (props) => {
 
       <div className="flex justify-end ml-5">
         <div className="relative flex items-center space-x-2 border-b-2 border-gray-400">
-          <SearchIcon className="h-5 w-5 text-gray-200 cursor-pointer" />
+          <SearchIcon className="h-4 md:h-5 w-5 text-gray-200 cursor-pointer" />
           <input
-            className="h-10 lg:w-64 bg-transparent outline-none text-sm text-gray-200"
+            className="text-xs w-28 md:h-10 lg:w-64 bg-transparent outline-none md:text-sm text-gray-200"
             type="text"
             value={term}
             placeholder="Search"
@@ -129,13 +130,14 @@ const Header = (props) => {
 
           {term && (
             <div className="absolute  top-12 -left-10 h-auto w-60 lg:top-14 lg:-left-2 lg:w-full  overflow-hidden bg-gray-800 p-1 rounded-b-md border-gray-700">
-              {searchResults.length ? (
+              {searchResults.length && !loading ? (
                 searchResults
                   .slice(0, 3)
                   .map((result) => <SearchResult result={result} />)
               ) : (
                 <div className="text-lg font-bld text-gray-500 text-center p-2 mt-2">
-                  <h3>No Results Found</h3>
+                  {!searchResults.length && <h3>No Results Found</h3>}
+                  <BeatLoader loading={loading} size={20} color="gray" />
                 </div>
               )}
               {searchResults.length && (

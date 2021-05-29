@@ -10,14 +10,32 @@ import {
   login,
   logout,
   selectUserEmail,
+  selectUserId,
+  selectUserSubscription,
   subscribe,
 } from "./features/user/userSlice";
-import { auth } from "./firebase";
+import db, { auth } from "./firebase";
 import Footer from "./components/Footer";
 
 function App() {
   const userEmail = useSelector(selectUserEmail);
+  const userId = useSelector(selectUserId);
+  const userSubscription = useSelector(selectUserSubscription);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userId) {
+      db.collection("customers")
+        .doc(userId)
+        .collection("subscriptions")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach(async (subscription) => {
+            dispatch(subscribe({ subscription: subscription.data().role }));
+          });
+        });
+    }
+  }, [userId]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {

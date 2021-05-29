@@ -48,8 +48,6 @@ const DetailsScreen = (props) => {
     },
   };
 
-  console.log({ details, movieId });
-
   return (
     <div className=" bg-gray-800 overflow-x-hidden">
       <div className="relative mb-10 lg:p-4 lg:rounded-md shadow-sm">

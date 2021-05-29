@@ -23,19 +23,19 @@ const Footer = () => {
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 grid-flow-row-dense px-8 py-3 cursor-pointer">
-        <div className="flex justify-center items-center md:col-span-2 lg:col-span-1 lg:col-start-2">
+        <div className="flex justify-center items-center md:col-span-2 lg:col-span-1 lg:col-start-2 hover:text-blue-500">
           <GlobeIcon className="h-5 mr-1 text-green-700" />
           India
         </div>
         <div className="flex justify-center space-x-8 whitespace-nowrap md:justify-self-start">
-          <p>Facebook</p>
-          <p>Twitter</p>
-          <p>Instagram</p>
+          <p className="hover:text-blue-500">Facebook</p>
+          <p className="hover:text-blue-500">Twitter</p>
+          <p className="hover:text-blue-500">Instagram</p>
         </div>
         <div className="flex justify-center space-x-8 md:ml-auto">
-          <p>Privacy</p>
-          <p>Terms</p>
-          <p>Feedback</p>
+          <p className="hover:text-blue-500">Privacy</p>
+          <p className="hover:text-blue-500">Terms</p>
+          <p className="hover:text-blue-500">Feedback</p>
         </div>
       </div>
     </footer>

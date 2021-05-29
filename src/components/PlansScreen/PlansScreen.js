@@ -4,12 +4,14 @@ import {
   selectUserEmail,
   selectUserPhoto,
   logout,
+  selectUserSubscription,
 } from "../../features/user/userSlice";
 import Plans from "../Plans";
 import { auth } from "../../firebase";
 
 function PlansScreen() {
   const dispatch = useDispatch();
+  const userSubscription = useSelector(selectUserSubscription);
   const userEmail = useSelector(selectUserEmail);
   const userPhoto = useSelector(selectUserPhoto);
 
@@ -31,7 +33,10 @@ function PlansScreen() {
               {userEmail}
             </h2>
             <div>
-              <h3 className="text-sm">Plans (Current Plan: Premium)</h3>
+              <h3 className="text-sm">
+                Plans (Current Plan:{" "}
+                {userSubscription ? userSubscription : "None"})
+              </h3>
 
               <Plans />
               <button
