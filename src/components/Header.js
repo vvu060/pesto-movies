@@ -120,7 +120,7 @@ const Header = ({ hide, searchHide }) => {
 
       <div className="flex items-center justify-end ml-5">
         {!searchHide && (
-          <div className="relative flex items-center space-x-2 border-b-2 border-gray-400">
+          <div className="relative flex items-center space-x-2 py-2 lg:py-1 border-b lg:border-b-2 border-gray-400">
             <SearchIcon className="h-4 md:h-5 w-5 text-gray-200 cursor-pointer" />
             <input
               className="text-xs w-28 md:h-10 lg:w-64 bg-transparent outline-none md:text-sm text-gray-200"
