@@ -2,10 +2,13 @@ import React from "react";
 import Row from "../Row";
 import Banner from "./Banner";
 import requests from "../../requests";
+import Header from "../Header";
+import Footer from "../Footer";
 
 function HomeScreen() {
   return (
     <div className="bg-gray-800">
+      <Header />
       <Banner />
       <Row
         id="pesto"
@@ -49,6 +52,7 @@ function HomeScreen() {
         title="Documentaries"
         fetchUrl={requests.fetchDocumetaries}
       />
+      <Footer />
     </div>
   );
 }

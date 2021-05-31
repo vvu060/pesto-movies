@@ -3,10 +3,17 @@ import React from "react";
 const image_url = "https://image.tmdb.org/t/p/original";
 
 function SearchResult({ result }) {
+  console.log(window.location);
   return (
     <div className="p-1 lg:py-2 z-80">
-      <a href={result.id}>
-        <div class="flex items-start rounded-md  transition duration-300 hover:scale-105 hover:bg-gray-700 transform">
+      <a
+        href={
+          window.location.pathname.includes("details")
+            ? `${result.id}`
+            : `details/${result.id}`
+        }
+      >
+        <div className="flex items-start rounded-md  transition duration-300 hover:scale-105 hover:bg-gray-700 transform">
           <div className="">
             <img
               loading="lazy"

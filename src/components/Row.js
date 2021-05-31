@@ -1,7 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { selectUserSubscription } from "../features/user/userSlice";
 import axios from "./axios";
 import { HashLoader } from "react-spinners";
 
@@ -9,7 +7,7 @@ const base_url = "https://image.tmdb.org/t/p/original/";
 
 const Row = ({ id, title, fetchUrl, isLargeRow = false }) => {
   const history = useHistory();
-  const userSubscription = useSelector(selectUserSubscription);
+
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -24,15 +22,6 @@ const Row = ({ id, title, fetchUrl, isLargeRow = false }) => {
 
     fetchData();
   }, [fetchUrl]);
-
-  const checkSubscription = (id) => {
-    if (userSubscription) {
-      history.push(`/details/${id}`);
-    } else {
-      alert("Subscription Plan is required to continue further.");
-      history.push("/plans");
-    }
-  };
 
   return (
     <div id={id} className=" text-gray-200 lg:p-2">
@@ -55,8 +44,8 @@ const Row = ({ id, title, fetchUrl, isLargeRow = false }) => {
               )}
 
               <img
+                onClick={() => history.push(`/details/${movie.id}`)}
                 loading="lazy"
-                onClick={() => checkSubscription(movie.id)}
                 className={`max-h-28 object-contain mr-2 w-full rounded-md transition transform duration-300 hover:scale-110   ${
                   isLargeRow && "max-h-60 lg:max-h-80"
                 }`}

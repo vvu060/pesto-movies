@@ -9,7 +9,7 @@ import { selectUserName, selectUserPhoto } from "../features/user/userSlice";
 import { useHistory } from "react-router";
 import { BeatLoader } from "react-spinners";
 
-const Header = () => {
+const Header = ({ hide, searchHide }) => {
   const history = useHistory();
   const userPhoto = useSelector(selectUserPhoto);
   const userName = useSelector(selectUserName);
@@ -69,93 +69,103 @@ const Header = () => {
       </div>
 
       {/* Middle */}
-
-      <div className="hidden lg:inline-flex text-gray-200 ml-10 flex-grow">
-        <ul className="flex space-x-4">
-          <li className="categories">
-            <Link to="#pesto" scroll={smoothScroll}>
-              Originals
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#fantasy" scroll={smoothScroll}>
-              Fantasy
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#action" scroll={smoothScroll}>
-              Action
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#comedy" scroll={smoothScroll}>
-              Comedy
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#horror" scroll={smoothScroll}>
-              Horror
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#thriller" scroll={smoothScroll}>
-              Thriller
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#romance" scroll={smoothScroll}>
-              Romance
-            </Link>
-          </li>
-          <li className="categories">
-            <Link to="#documentaries" scroll={smoothScroll}>
-              Documentaries
-            </Link>
-          </li>
-        </ul>
-      </div>
+      {!hide && (
+        <div className="hidden lg:inline-flex text-gray-200 ml-10 flex-grow">
+          <ul className="flex space-x-4">
+            <li className="categories">
+              <Link to="#pesto" scroll={smoothScroll}>
+                Originals
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#fantasy" scroll={smoothScroll}>
+                Fantasy
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#action" scroll={smoothScroll}>
+                Action
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#comedy" scroll={smoothScroll}>
+                Comedy
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#horror" scroll={smoothScroll}>
+                Horror
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#thriller" scroll={smoothScroll}>
+                Thriller
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#romance" scroll={smoothScroll}>
+                Romance
+              </Link>
+            </li>
+            <li className="categories">
+              <Link to="#documentaries" scroll={smoothScroll}>
+                Documentaries
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
 
       {/* Right */}
 
-      <div className="flex justify-end ml-5">
-        <div className="relative flex items-center space-x-2 border-b-2 border-gray-400">
-          <SearchIcon className="h-4 md:h-5 w-5 text-gray-200 cursor-pointer" />
-          <input
-            className="text-xs w-28 md:h-10 lg:w-64 bg-transparent outline-none md:text-sm text-gray-200"
-            type="text"
-            value={term}
-            placeholder="Search"
-            onChange={(e) => setTerm(e.target.value)}
-          />
+      <div className="flex items-center justify-end ml-5">
+        {!searchHide && (
+          <div className="relative flex items-center space-x-2 border-b-2 border-gray-400">
+            <SearchIcon className="h-4 md:h-5 w-5 text-gray-200 cursor-pointer" />
+            <input
+              className="text-xs w-28 md:h-10 lg:w-64 bg-transparent outline-none md:text-sm text-gray-200"
+              type="text"
+              value={term}
+              placeholder="Search"
+              onChange={(e) => setTerm(e.target.value)}
+            />
 
-          {term && (
-            <div className="absolute  top-12 -left-10 h-auto w-60 lg:top-14 lg:-left-2 lg:w-full  overflow-hidden bg-gray-800 p-1 rounded-b-md border-gray-700">
-              {searchResults.length && !loading ? (
-                searchResults
-                  .slice(0, 3)
-                  .map((result) => <SearchResult result={result} />)
-              ) : (
-                <div className="text-lg font-bld text-gray-500 text-center p-2 mt-2">
-                  {!searchResults.length && <h3>No Results Found</h3>}
-                  <BeatLoader loading={loading} size={20} color="gray" />
-                </div>
-              )}
-              {searchResults.length && (
-                <div className="text-center text-md rounded-sm font-semibold text-gray-200 py-1 bg-gray-700">
-                  <button className="outline-none border-none">
-                    More Results
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-          <XIcon
-            onClick={() => setTerm("")}
-            className="h-4 text-gray-200 cursor-pointer"
-          />
-        </div>
+            {term && (
+              <div className="absolute  top-12 -left-10 h-auto w-60 lg:top-14 lg:-left-2 lg:w-full  overflow-hidden bg-gray-800 p-1 rounded-b-md border-gray-700">
+                {searchResults.length && !loading ? (
+                  searchResults
+                    .slice(0, 3)
+                    .map((result) => (
+                      <SearchResult key={result.id} result={result} />
+                    ))
+                ) : (
+                  <div className="text-lg font-bld text-gray-500 text-center p-2 mt-2">
+                    {!searchResults.length && <h3>No Results Found</h3>}
+                    <BeatLoader loading={loading} size={20} color="gray" />
+                  </div>
+                )}
+                {searchResults.length && (
+                  <div className="text-center text-md rounded-sm font-semibold text-gray-200 py-1 bg-gray-700">
+                    <button className="outline-none border-none">
+                      More Results
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+            <XIcon
+              onClick={() => setTerm("")}
+              className="h-4 text-gray-200 cursor-pointer"
+            />
+          </div>
+        )}
 
-        <div onClick={() => history.push("/plans")} className="ml-5">
+        <div
+          onClick={() =>
+            userName ? history.push("/plans") : history.push("/login")
+          }
+          className="ml-5"
+        >
           {userName ? (
             <img
               loading="lazy"
@@ -164,7 +174,9 @@ const Header = () => {
               alt={userName}
             />
           ) : (
-            <UserCircleIcon className="hidden lg:flex h-10 text-gray-200 cursor-pointer" />
+            <button className="py-1 px-2 lg:px-3 text-gray-200 bg-blue-500 font-semibold border-none outline-none opacity-80 hover:opacity-100 rounded-sm cursor-pointer">
+              Login
+            </button>
           )}
         </div>
       </div>
