@@ -34,7 +34,7 @@ const Row = ({ id, title, fetchUrl, isLargeRow = false }) => {
             (!isLargeRow && movie.backdrop_path)) &&
           !loading ? (
             <Fragment key={movie.id}>
-              {!isLargeRow && (
+              {!isLargeRow && movies && (
                 <div className="relative">
                   <div className="absolute z-10 items-center whitespace-nowrap  bottom-2 left-2  text-left text-xs text-gray-200 hover:text-md">
                     <p className="font-bold">{movie.title}</p>

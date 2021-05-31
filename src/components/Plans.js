@@ -80,10 +80,11 @@ const Plans = () => {
           process.env.REACT_APP_STRIPE_PUBLIC_API_KEY
         );
 
+        setLoading(false);
+
         stripe.redirectToCheckout({ sessionId });
       }
     });
-    setLoading(false);
   };
 
   return (
