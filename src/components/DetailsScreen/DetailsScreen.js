@@ -65,10 +65,10 @@ const DetailsScreen = (props) => {
     } else if (userId && !userSubscription) {
       alert(`A subscription plan is required to watch the trailer`);
       history.push("/plans");
-    } else if (!userId && !userSubscription) {
+    } else {
       alert(`Please login to watch the trailer`);
       history.push("/login");
-    } else return;
+    }
   };
 
   return (
